@@ -1,0 +1,160 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Microsoft.Kinect.Samples.KinectPaint"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        mc:Ignorable="d ignore"
+        x:Class="Microsoft.Kinect.Samples.KinectPaint.MainWindow"
+        Title="Kinect Paint"
+        WindowState="Maximized"
+        WindowStyle="None"
+        Cursor="None"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Background="{StaticResource MainBackgroundBrush}"
+        Loaded="MainWindow_Loaded"
+        Closed="Window_Closed"
+        d:DesignWidth="1280"
+        d:DesignHeight="720">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{StaticResource ColumnWidth1}" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="{StaticResource ColumnWidth3}" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="PART_PaintCanvas"
+                Grid.Column="1" 
+                SizeChanged="PART_PaintCanvas_SizeChanged"
+                Style="{StaticResource MainCanvasStyle}">
+
+            <Image x:Name="PART_KinectVideo" />
+
+            <Image x:Name="PART_LoadedImageDisplay"
+                    Stretch="None"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="-34,0,-34,0" />
+        </Grid>
+
+        <StackPanel x:Name="PART_selectionUI"
+                    Margin="0,16,0,0">
+            <TextBlock Text="Tools"
+                       Style="{StaticResource LabelStyle}" />
+
+            <local:KinectPaintListBox SelectedItem="{Binding SelectedBrush, Mode=TwoWay}"
+                                      ItemsSource="{Binding AvailableBrushes}"
+                                      ItemContainerStyle="{StaticResource BrushItemStyle}"
+                                      Style="{StaticResource ToolListBoxStyle}" />
+        </StackPanel>
+
+        <Grid Grid.Column="2"
+              x:Name="PART_actionUI">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <WrapPanel Style="{StaticResource RightButtonPanelStyle}"
+                       Margin="15,30,0,0">
+                <local:KinectPaintButton Click="OnQuit"
+                                         Tag="quit"
+                                         Style="{StaticResource KinectButtonStyle}">
+                    <Image Source="/KinectPaint;component/Resources/close.png"
+                           Style="{StaticResource ButtonIconStyle}"
+                           Width="Auto"
+                           Height="60" Margin="39,19,39,0" />
+                </local:KinectPaintButton>
+
+                <local:KinectPaintButton Style="{StaticResource TutorialButtonStyle}"
+                                         Grid.Column="2"
+                                         Click="OnCloseTutorial">
+                    <TextBlock Text="Let's draw"
+                               Style="{StaticResource TutorialButtonTextStyle}" />
+                </local:KinectPaintButton>
+            </WrapPanel>
+
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="File Options"
+                           Style="{StaticResource LabelStyle}"
+                           HorizontalAlignment="Right"
+                           TextAlignment="Right" />
+
+                <WrapPanel Style="{StaticResource RightButtonPanelStyle}"
+                           Margin="15,0,0,20">
+                    <local:KinectPaintButton Click="OnSave"
+                                             Tag="save"
+                                             Style="{StaticResource KinectButtonStyle}">
+                        <Image Source="/KinectPaint;component/Resources/save.png"
+                               Style="{StaticResource ButtonIconStyle}" />
+                    </local:KinectPaintButton>
+
+                    <local:KinectPaintButton Click="OnNew"
+                                             Style="{StaticResource KinectButtonStyle}"
+                                             Tag="new">
+                        <Image Source="/KinectPaint;component/Resources/new.png"
+                               Style="{StaticResource ButtonIconStyle}" />
+                    </local:KinectPaintButton>
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+
+        <local:KinectPaintListBox x:Name="PART_ColorPickerListBox"
+                                  Grid.Row="1" Grid.Column="1"
+                                  Background="Transparent"
+                                  ItemsSource="{Binding AvailableColors}"
+                                  SelectedItem="{Binding SelectedColor, Mode=TwoWay}"
+                                  Style="{StaticResource ColorListboxStyle}"
+                                  local:KinectCursor.CursorEnter="KinectPaintListBox_CursorEnter"
+                                  local:KinectCursor.CursorLeave="KinectPaintListBox_CursorLeave" />
+
+        <Grid x:Name="PART_SaveMessage"
+              Grid.Column="1"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Style="{StaticResource SaveMessageGridStyle}"
+              Opacity="0">
+            <StackPanel Grid.ColumnSpan="2"
+                        Orientation="Horizontal"
+                        Style="{StaticResource MessagePanelStyle}"
+                        Margin="35,0">
+                <Image Source="/KinectPaint;component/Resources/save.png"
+                       Width="75"
+                       Height="75" />
+
+                <TextBlock TextAlignment="Center"
+                           Text="successfully saved"
+                           Style="{StaticResource SaveMessageTextStyle}"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </Grid>
+
+        <local:Tutorial Grid.ColumnSpan="3"
+                        d:IsHidden="True"
+                        x:Name="Tutorial" />
+
+        <ContentControl x:Name="PART_PopupDisplay"
+                        Grid.ColumnSpan="3"
+                        Grid.RowSpan="2"
+                        Style="{StaticResource PopupContentControlStyle}"
+                        d:IsHidden="True" />
+
+        <local:KinectCursor x:Name="PART_Cursor"
+                            Grid.ColumnSpan="3"
+                            Grid.RowSpan="2"
+                            d:IsHidden="True" />
+
+        <TextBlock x:Name="PART_ErrorText"
+                   Text="Failed to start the Kinect!"
+                   IsHitTestVisible="False"
+                   Visibility="Collapsed"
+                   Grid.Column="1"
+                   Style="{StaticResource KinectErrorTextStyle}" />
+    </Grid>
+</Window>
