@@ -1,0 +1,209 @@
+﻿<UserControl x:Class="Microsoft.Kinect.Samples.KinectPaint.Tutorial"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Microsoft.Kinect.Samples.KinectPaint"
+             mc:Ignorable="d"
+             d:DesignHeight="720"
+             d:DesignWidth="1280">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Skins/GlobalStyles.xaml" />
+                <ResourceDictionary Source="./Skins/TutorialStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1"
+              Style="{StaticResource MainCanvasStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="0.5*" />
+            </Grid.ColumnDefinitions>
+
+            <Rectangle Fill="{StaticResource PrimaryBrush}"
+                       Grid.Column="1"
+                       Margin="0,48,0,0" />
+
+            <Grid VerticalAlignment="Top"
+                  Style="{StaticResource LegendLeftStyle}"
+                  Margin="0,80,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0.783*" />
+                </Grid.ColumnDefinitions>
+
+                <Path Style="{StaticResource ArrowStyle}" />
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Vertical">
+                    <TextBlock Text="Select a drawing tool"
+                               Style="{StaticResource TitleTextStyle}" />
+
+                    <TextBlock Text="Hover over an icon and allow it to load."
+                               Style="{StaticResource DescriptionTextStyle}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid VerticalAlignment="Top"
+                  Margin="0,350,0,0"
+                  Style="{StaticResource LegendLeftStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Path Style="{StaticResource ArrowStyle}" />
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Vertical">
+                    <TextBlock Text="Change the thickness"
+                               Style="{StaticResource TitleTextStyle}" />
+
+                    <TextBlock Text="Hover over an icon and allow it to load."
+                               Style="{StaticResource DescriptionTextStyle}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid VerticalAlignment="Bottom"
+                  Style="{StaticResource LegendLeftStyle}"
+                  Margin="0,0,20,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Path Style="{StaticResource ArrowStyle}"
+                      RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <RotateTransform Angle="-90" />
+                    </Path.RenderTransform>
+                </Path>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Vertical">
+                    <TextBlock Text="Change colors"
+                               Style="{StaticResource TitleTextStyle}" />
+
+                    <TextBlock Text="Swipe left or right to change color, then hover over that color to select."
+                               Style="{StaticResource DescriptionTextStyle}" />
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Grid.Column="2"
+                        Style="{StaticResource LegendRightStyle}"
+                        Margin="30,30,20,0">
+                <TextBlock TextWrapping="Wrap"
+                           Text="How to Use Kinect Paint"
+                           Style="{StaticResource BigTitleTextStyle}" />
+
+                <TextBlock TextWrapping="Wrap"
+                           Text="The Kinect Paint application uses gestures to allow you to paint onto this canvas. You have a choice of drawing tools and then the ability to resize the thickness of the brush. You can change the color of the brush and then save your work to be reviewed later."
+                           Style="{StaticResource HighlightDescriptionTextStyle}" />
+
+                <Grid Margin="0,24,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid>
+                		<Rectangle Fill="{DynamicResource PrimaryBrush}"/>
+
+                		<Image Source="Resources/cursor-wait.png"
+                			Style="{StaticResource LegendIconStyle}"/>
+                	</Grid>
+
+                    <Image Grid.Row="1"
+                           Source="/KinectPaint;component/Resources/cursor-draw.png"
+                           Style="{StaticResource LegendIconStyle}" />
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="Load Icon"
+                                   Style="{StaticResource TitleTextStyle}" />
+
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="The icon appears for 2 seconds to make a selection."
+                                   Style="{StaticResource DescriptionTextStyle}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"
+                                Grid.Row="1">
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="Draw Icon"
+                                   Style="{StaticResource TitleTextStyle}" />
+
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="The icon appears to show your brush on the canvas."
+                                   Style="{StaticResource DescriptionTextStyle}" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.ColumnSpan="2"
+                                Orientation="Vertical"
+                                Grid.Row="2"
+                                d:LayoutOverrides="Height">
+                        <TextBlock HorizontalAlignment="Left"
+                                   TextWrapping="Wrap"
+                                   Text="Raise one hand to move the cursor."
+                                   VerticalAlignment="Top"
+                                   Style="{StaticResource DescriptionTextStyle}"
+                                   Margin="0,0,0,10" />
+                        
+                        <TextBlock HorizontalAlignment="Left"
+                                   TextWrapping="Wrap"
+                                   Text="Raise two hands to draw."
+                                   VerticalAlignment="Top"
+                                   Style="{StaticResource DescriptionTextStyle}" Margin="0" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <Grid VerticalAlignment="Bottom"
+                  Grid.Column="3"
+                  Style="{StaticResource LegendLeftStyle}"
+                  Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Path Style="{StaticResource ArrowStyle}"
+                      Grid.Column="1"
+                      RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <ScaleTransform ScaleY="1"
+                                        ScaleX="-1" />
+                    </Path.RenderTransform>
+                </Path>
+
+                <StackPanel>
+                    <TextBlock Text="Select a drawing tool"
+                               Style="{StaticResource TitleTextStyle}"
+                               HorizontalAlignment="Right" />
+
+                    <TextBlock Text="Hover over an icon and allow it to load."
+                               Style="{StaticResource DescriptionTextStyle}"
+                               HorizontalAlignment="Right" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
